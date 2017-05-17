@@ -981,7 +981,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
     return AcceptToMemoryPoolWithTime(pool, state, tx, fLimitFree, pfMissingInputs, GetTime(), plTxnReplaced, fOverrideMempoolLimit, nAbsurdFee);
 }
 
-bool ReadTransaction(CTransactionRef tx, const CDiskTxPos &pos, uint256 &hashBlock) {
+bool ReadTransaction(CTransactionRef &tx, const CDiskTxPos &pos, uint256 &hashBlock) {
     CAutoFile file(OpenBlockFile(pos, true), SER_DISK, CLIENT_VERSION);
     CBlockHeader header;
     try {
@@ -1148,14 +1148,14 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+    /* int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64)
-        return 0;
+        return 0; */
 
     CAmount nSubsidy = 50 * COIN;
     // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
-    nSubsidy >>= halvings;
+    // nSubsidy >>= halvings;
     return nSubsidy;
 }
 
@@ -1176,10 +1176,10 @@ bool IsInitialBlockDownload()
         return true;
     if (chainActive.Tip() == NULL)
         return true;
-    if (chainActive.Tip()->nChainWork < UintToArith256(chainParams.GetConsensus().nMinimumChainWork))
+    /* if (chainActive.Tip()->nChainWork < UintToArith256(chainParams.GetConsensus().nMinimumChainWork))
         return true;
     if (chainActive.Tip()->GetBlockTime() < (GetTime() - nMaxTipAge))
-        return true;
+        return true; */
     latchToFalse.store(true, std::memory_order_relaxed);
     return false;
 }

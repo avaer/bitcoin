@@ -1039,7 +1039,7 @@ bool AppInitParameterInteraction()
     {
         CAmount n = 0;
         if (!ParseMoney(GetArg("-minrelaytxfee", ""), n)) {
-            return InitError(AmountErrMsg("minrelaytxfee", GetArg("-minrelaytxfee", "")));
+            // return InitError(AmountErrMsg("minrelaytxfee", GetArg("-minrelaytxfee", "")));
         }
         // High fee check is done afterward in CWallet::ParameterInteraction()
         ::minRelayTxFee = CFeeRate(n);
@@ -1054,8 +1054,9 @@ bool AppInitParameterInteraction()
     if (IsArgSet("-blockmintxfee"))
     {
         CAmount n = 0;
-        if (!ParseMoney(GetArg("-blockmintxfee", ""), n))
-            return InitError(AmountErrMsg("blockmintxfee", GetArg("-blockmintxfee", "")));
+        if (!ParseMoney(GetArg("-blockmintxfee", ""), n)) {
+            // return InitError(AmountErrMsg("blockmintxfee", GetArg("-blockmintxfee", "")));
+        }
     }
 
     // Feerate used to define dust.  Shouldn't be changed lightly as old
@@ -1063,8 +1064,9 @@ bool AppInitParameterInteraction()
     if (IsArgSet("-dustrelayfee"))
     {
         CAmount n = 0;
-        if (!ParseMoney(GetArg("-dustrelayfee", ""), n) || 0 == n)
-            return InitError(AmountErrMsg("dustrelayfee", GetArg("-dustrelayfee", "")));
+        if (!ParseMoney(GetArg("-dustrelayfee", ""), n) || 0 == n) {
+            // return InitError(AmountErrMsg("dustrelayfee", GetArg("-dustrelayfee", "")));
+        }
         dustRelayFee = CFeeRate(n);
     }
 
